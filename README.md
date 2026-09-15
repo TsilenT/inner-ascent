@@ -1,6 +1,6 @@
-# Inner Descent
+# Inner Ascent
 
-Project foundation for **Inner Descent**.
+Project foundation for **Inner Ascent**.
 
 ## Local preview
 
@@ -14,4 +14,4 @@ Open <http://localhost:8080>.
 
 Every push to `main` deploys the repository to GitHub Pages at:
 
-<https://innerdescent.stevets.ai>
+<https://innerascent.stevets.ai>
