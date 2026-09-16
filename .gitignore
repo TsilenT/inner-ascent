@@ -5,3 +5,6 @@ Thumbs.db
 node_modules/
 dist/
 build/
+artifacts/
+test-results/
+playwright-report/

@@ -1,37 +1,42 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#08070b">
-  <title>Inner Ascent</title>
-  <style>
-    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
-    * { box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      margin: 0;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      color: #eee8e2;
-      background:
-        radial-gradient(circle at 50% 115%, #39192e 0, transparent 42%),
-        linear-gradient(#08070b, #100b12);
-    }
-    main { max-width: 46rem; padding: 2rem; text-align: center; }
-    p:first-child { color: #a68f9d; font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; }
-    h1 { margin: .3em 0; font-family: Georgia, serif; font-size: clamp(3.5rem, 12vw, 8rem); font-weight: 400; letter-spacing: -.055em; line-height: .82; }
-    p:last-child { color: #a99fa7; font-size: clamp(1rem, 2vw, 1.2rem); }
-    .mark { display: block; width: 1px; height: 8rem; margin: 2rem auto 0; background: linear-gradient(#8c405f, transparent); }
-  </style>
-</head>
-<body>
-  <main>
-    <p>A new project</p>
-    <h1>Inner<br>Ascent</h1>
-    <p>Something is awakening within.</p>
-    <span class="mark" aria-hidden="true"></span>
-  </main>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111c19" />
+    <meta name="description" content="A tiny glob. An enormous nose. A sticky, atmospheric VR climbing adventure. Play BOOGER: INNER ASCENT in your browser." />
+    <title>BOOGER: INNER ASCENT</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23c8ef71' d='M53 36C65 7 27-6 14 14S-1 59 25 60 65 55 53 36'/%3E%3Ccircle cx='26' cy='26' r='5' fill='%23121e19'/%3E%3Ccircle cx='42' cy='25' r='5' fill='%23121e19'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <canvas id="world" aria-label="BOOGER 3D game world"></canvas>
+    <div id="vignette"></div>
+    <div id="loading"><span class="loading-blob"></span><p>Growing a nose…</p></div>
+    <main id="menu" class="screen">
+      <header class="topbar"><a class="brand" href="./" aria-label="BOOGER home"><span class="mini-blob">••</span> B / IA</a><span class="edition"><i></i> A SMALL GAME. A BIG NOSE.</span><button id="sound-menu" class="icon-button" aria-label="Toggle sound">SOUND ON <span>◖))</span></button></header>
+      <section class="hero">
+        <div class="eyebrow"><span class="small-line"></span> A STICKY LITTLE ADVENTURE</div>
+        <h1>BOOGER<span class="title-dot">.</span></h1><h2>INNER ASCENT</h2>
+        <p class="tagline">You are a booger.<br>You were made for greater things.</p>
+        <p class="intro">Deep inside an ordinary nose, an extraordinary<br class="wide-only" /> ascent awaits. Stick. Stretch. Let go.</p>
+        <div class="play-actions"><button id="play" class="primary">BEGIN THE ASCENT <span>↗</span></button><button id="enter-vr" class="secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 6h14l2 3v8H15l-3-3-3 3H3V9z"/><circle cx="7.5" cy="11" r="1.5"/><circle cx="16.5" cy="11" r="1.5"/></svg><span>ENTER VR</span></button></div>
+        <p id="vr-note" class="compatibility">PLAY IN YOUR BROWSER · EVEN BETTER IN VR</p><button id="how-to" class="text-button">How to be a booger <span>↓</span></button>
+      </section>
+      <div class="scene-label"><span class="label-line"></span><span>SPECIMEN 001<br><strong>Unreasonably ambitious.</strong></span></div>
+      <footer class="menu-footer"><span><i class="status-dot"></i> SINGLE PLAYER <b>/</b> WEBXR READY</span><span class="footer-quote">The only way out is up.</span><span>HEADPHONES RECOMMENDED <span class="headphone">♧</span></span></footer>
+    </main>
+    <section id="hud" class="hidden" aria-label="Game status">
+      <div class="hud-top"><div><div class="eyebrow">BOOGER / INNER ASCENT</div><h3 id="zone-name">Nostril Entrance</h3><p id="zone-subtitle">Every legend starts somewhere unfortunate.</p></div><button id="pause" class="icon-button">ESC <span>Ⅱ</span></button></div>
+      <div class="altimeter"><span id="height">0</span><small>METERS<br>ASCENDED</small><div class="altitude-track"><div id="altitude-fill"></div><i></i><i></i><i></i><i></i><i></i></div><span class="summit-label">THE GOLDEN ONE · 96 M</span></div>
+      <div id="crosshair"><i></i></div><div id="target-hint"></div>
+      <div id="announcement" role="status"><span id="announcement-title"></span><small id="announcement-body"></small></div><div id="hazard" class="hidden" role="alert"></div>
+      <div class="hud-bottom"><div class="breath-card"><div class="breath-orb" id="breath-orb"></div><div><span class="eyebrow">THE NOSE IS BREATHING</span><strong id="breath-label">INHALE</strong><div class="breath-track"><div id="breath-fill"></div></div><small id="breath-tip">Ride the air. Find your next hold.</small></div></div><div class="hand-status"><span id="left-status">L · FREE</span><span id="right-status">R · FREE</span><span id="thread-status">THREAD READY</span></div><div class="collectible-count"><span>✦</span> <b id="pollen-count">00</b><small>POLLEN COLLECTED</small></div></div>
+      <div id="control-strip"><kbd>W A S D</kbd> move <span>·</span> <kbd>SPACE</kbd> climb / jump <span>·</span> <kbd>LMB / E</kbd> stick <span>·</span> <kbd>RMB</kbd> other hand <span>·</span> <kbd>Q</kbd> thread <span>·</span> <kbd>SHIFT</kbd> stretch</div>
+    </section>
+    <section id="help" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="help-title"><div class="panel"><div class="eyebrow">FIELD GUIDE / SPECIMEN 001</div><h2 id="help-title">Small glob.<br>Big ambitions.</h2><p>Climb the glowing ledges to the legendary golden booger. Collect pollen. Make questionable life choices.</p><div class="guide-grid"><article><span>01 / STICK & CLIMB</span><p><b>VR:</b> Reach for a ledge, wall, or hair. Hold grip and pull your hand down to climb. Two hands, twice the stick.</p><p><b>Desktop:</b> WASD + mouse to move. Tap Space to climb the next nearby ledge, or jump. Hold click / E to stick; right click uses your other hand.</p></article><article><span>02 / STRETCH & SLING</span><p><b>VR:</b> Keep gripping and pull farther to stretch your mucus. Release a stretched hand to launch toward the hold.</p><p><b>Desktop:</b> Stick, hold Shift to stretch backward, then release the grab to slingshot. Q casts a short elastic thread at the surface you aim at.</p></article><article><span>03 / TRUST THE NOSE</span><p>Inhales lift you. Exhales push you down. Golden motes and a breathing meter show the rhythm. For a sneeze: grab anything and hold on.</p></article><article><span>04 / NO GLOB LEFT BEHIND</span><p>Glowing sanctuary ledges save your progress. R returns to your last sanctuary. Slick blue mucus releases your grip after a moment. In VR, trigger casts a thread; left stick moves, right stick snap turns, A jumps, B returns to safety.</p></article></div><button id="close-help" class="primary">I WAS BORN FOR THIS <span>↗</span></button></div></section>
+    <section id="pause-screen" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="pause-title"><div class="panel compact"><div class="eyebrow">TAKE A BREATHER</div><h2 id="pause-title">Hang in there.</h2><p>Your tiny existential journey is on hold.</p><button id="resume" class="primary">KEEP CLIMBING <span>↗</span></button><button id="vr-resume" class="secondary hidden">CONTINUE IN VR</button><button id="pause-help" class="secondary">CONTROLS & FIELD GUIDE</button><button id="checkpoint" class="secondary">RETURN TO SANCTUARY</button><button id="sound-pause" class="text-button">SOUND ON / toggle</button><button id="restart-pause" class="text-button">Start a fresh ascent</button></div></section>
+    <section id="ending" class="screen hidden"><div class="ending-content"><div class="eyebrow">FROM HUMBLE BEGINNINGS. TO NASAL GREATNESS.</div><div class="end-emblem">✦</div><h2>YOU HAVE<br>ASCENDED.</h2><p class="end-subtitle">THE NOSE REMEMBERS.</p><p class="end-joke">Some are born great. Some achieve greatness.<br>Some are mostly water and a little bit of dust.</p><div class="end-stats"><div><b id="end-time">0:00</b><span>TIME TO GREATNESS</span></div><div><b id="end-pollen">0</b><span>POLLEN LIBERATED</span></div><div><b id="end-sneezes">0</b><span>SNEEZES SURVIVED</span></div></div><button id="restart" class="primary">BE REBORN <span>↻</span></button><p id="best-time"></p></div></section>
+    <div id="error" class="modal hidden"><div class="panel compact"><h2>A little congestion.</h2><p id="error-message"></p><button onclick="location.reload()" class="primary">TRY AGAIN</button></div></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
